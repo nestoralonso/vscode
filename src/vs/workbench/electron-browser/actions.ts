@@ -42,6 +42,9 @@ import { IModelService } from 'vs/editor/common/services/modelService';
 import { IModeService } from 'vs/editor/common/services/modeService';
 import { IQuickInputService, IQuickPickItem, IQuickInputButton, IQuickPickSeparator, IKeyMods } from 'vs/platform/quickinput/common/quickInput';
 import { getIconClasses } from 'vs/workbench/browser/labels';
+import { SQLiteStorage } from 'vs/base/node/storage';
+import { IEnvironmentService } from 'vs/platform/environment/common/environment';
+import { join } from 'path';
 
 // --- actions
 
@@ -1310,5 +1313,39 @@ export class InspectContextKeysAction extends Action {
 		}, null, disposables);
 
 		return Promise.resolve(null);
+	}
+}
+
+export class ReadLocalStorage extends Action {
+
+	static readonly ID = 'workbench.action.readLocalStorage';
+	static readonly LABEL = nls.localize('readLocalStorage', "Read Local Storage");
+
+	constructor(
+		id: string,
+		label: string,
+		@IQuickInputService private inputService: IQuickInputService,
+		@IEnvironmentService private environmentService: IEnvironmentService
+	) {
+		super(id, label);
+	}
+
+	run(): Thenable<void> {
+		return this.inputService.input({
+			value: join(this.environmentService.userDataPath, 'Local Storage', 'file__0.localstorage')
+		}).then(path => {
+			const storage = new SQLiteStorage({
+				path,
+				logging: {
+					errorLogger: error => console.error(error)
+				}
+			});
+
+			return storage.getItems().then(items => {
+				items.forEach((value, key) => {
+					console.log(key, value);
+				});
+			});
+		});
 	}
 }
