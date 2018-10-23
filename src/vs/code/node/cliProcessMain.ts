@@ -74,6 +74,8 @@ class Main {
 			returnPromise = this.setInstallSource(argv['install-source']);
 		} else if (argv['list-extensions']) {
 			returnPromise = this.listExtensions(argv['show-versions']);
+		} else if (argv['list-enabled-extensions']) {
+			returnPromise = this.listEnabledExtensions(argv['show-versions']);
 		} else if (argv['install-extension']) {
 			const arg = argv['install-extension'];
 			const args: string[] = typeof arg === 'string' ? [arg] : arg;
@@ -92,6 +94,13 @@ class Main {
 
 	private listExtensions(showVersions: boolean): TPromise<any> {
 		return this.extensionManagementService.getInstalled(LocalExtensionType.User).then(extensions => {
+			extensions.forEach(e => console.log(getId(e.manifest, showVersions)));
+		});
+	}
+
+	private listEnabledExtensions(showVersions: boolean): TPromise<any> {
+		return this.extensionManagementService.getInstalled(LocalExtensionType.User).then(extensions => {
+			console.log('listEnabledExtensions', extensions);
 			extensions.forEach(e => console.log(getId(e.manifest, showVersions)));
 		});
 	}

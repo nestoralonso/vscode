@@ -57,6 +57,7 @@ const options: minimist.Opts = {
 		'logStorage',
 		'disable-extensions',
 		'list-extensions',
+		'list-enabled-extensions',
 		'show-versions',
 		'nolazy',
 		'issue',
@@ -165,6 +166,7 @@ const optionsHelp: { [name: string]: string; } = {
 const extensionsHelp: { [name: string]: string; } = {
 	'--extensions-dir <dir>': localize('extensionHomePath', "Set the root path for extensions."),
 	'--list-extensions': localize('listExtensions', "List the installed extensions."),
+	'--list-enabled-extensions': localize('listEnabledExtensions', "List only the installed extensions that are globally enabled."),
 	'--show-versions': localize('showVersions', "Show versions of installed extensions, when using --list-extension."),
 	'--uninstall-extension (<extension-id> | <extension-vsix-path>)': localize('uninstallExtension', "Uninstalls an extension."),
 	'--install-extension (<extension-id> | <extension-vsix-path>)': localize('installExtension', "Installs or updates the extension. Use `--force` argument to avoid prompts."),

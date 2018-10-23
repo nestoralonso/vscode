@@ -48,6 +48,7 @@ export interface ParsedArgs {
 	'disable-extensions'?: boolean;
 	'disable-extension'?: string | string[];
 	'list-extensions'?: boolean;
+	'list-enabled-extensions'?: boolean;
 	'show-versions'?: boolean;
 	'install-extension'?: string | string[];
 	'uninstall-extension'?: string | string[];
